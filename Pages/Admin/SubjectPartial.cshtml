@@ -1,0 +1,23 @@
+@model backend.Models.Subject
+
+
+<tr>
+    <td>@Model.CodeNo</td>
+    <td>@Model.DescriptiveTitle</td>
+    <td>@Model.Units</td>
+    <td>@Model.Type</td>
+    <td>@Model.Prerequisite</td>
+    <td class="text-center">
+        <form asp-page="Subjects" asp-page-handler="Delete">
+            <input type="hidden" name="subjectId" value="@Model.SubjectId" />
+            <input type="submit" class="btn btn-danger" value="Delete" />
+        </form>
+       
+    </td>
+    <td class="text-center"> 
+        <form asp-page-handler="Update">
+            <input type="hidden" name="subjectId" value="@Model.SubjectId" />
+        </form>
+        <button type="button" class="btn btn-warning updateModalBtn" data-bs-toggle="modal" data-bs-target="#updateModal"  data-id="@Model.SubjectId">Update</button>
+    </td>
+</tr>

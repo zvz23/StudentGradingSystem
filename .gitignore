@@ -1,0 +1,6 @@
+﻿**/Migrations
+**/*.db
+**/bin
+**/.vs
+**/.vscode
+**/obj
