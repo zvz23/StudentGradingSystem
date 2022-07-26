@@ -11,15 +11,24 @@ namespace backend.Models {
         public int Units { get; set; }
         public ClassType Type { get; set; }
         public List<Program> Programs { get; set; }
-        public Prerequisite Prerequisite { get; set; }
+        public Prerequisite? Prerequisite { get; set; }
 
+    }
+
+    public class PrerequisiteSubject
+    {
+        public int PrerequisiteSubjectId { get; set; }
+        public int SubjectId { get; set; }
+        public Subject Subject { get; set; }
+        public int PrerequisiteId { get; set; }
+        public Prerequisite Prerequisite { get; set; }
     }
 
     public class Prerequisite
     {
         public int PrerequisiteId { get; set; }
         public PrerequisiteType Type { get; set; }
-        public string? SubjectCodes { get; set; }
+        public List<PrerequisiteSubject>? Subjects{ get; set; }
         public int? Percentage { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
@@ -32,7 +41,7 @@ namespace backend.Models {
                 case PrerequisiteType.None:
                     break;
                 case PrerequisiteType.Subject:
-                    prerequisiteStr = SubjectCodes;
+                    prerequisiteStr = string.Join(", ", Subjects.Select(ps => ps.Subject).Select(s => s.CodeNo));
                     break;
                 case PrerequisiteType.TotalUnits:
                     prerequisiteStr = Percentage.ToString();

@@ -103,7 +103,7 @@ namespace backend.Pages {
             }
             Subject subject = await _context.Subjects
                 .Include(s => s.Prerequisite)
-                .ThenInclude(p => p.SubjectCodes)
+                .ThenInclude(p => p.Subjects)
                 .FirstOrDefaultAsync(s => s.SubjectId == id);
             if (SubjectForm == null)
             {
@@ -168,38 +168,45 @@ namespace backend.Pages {
                 Type = ClassType,
                 Prerequisite = new Prerequisite()
                 {
-                    Type = PrerequisiteType
+                    Type = PrerequisiteType,
+                    Subjects = new List<PrerequisiteSubject>()
+                   
                 }
             };
 
-
-            if (PrerequisiteType == PrerequisiteType.Subject)
+            if (PrerequisiteType != PrerequisiteType.None)
             {
-                if (PrerequisiteSubjectCodes == null || PrerequisiteSubjectCodes.Count < 1)
+                subject.Prerequisite = new Prerequisite();
+                if (PrerequisiteType == PrerequisiteType.Subject)
                 {
-                    throw new ArgumentException("PrerequisiteSubjectCodes is empty or null");
-                }
-                StringBuilder stringBuilder = new StringBuilder();
-                
-
-                foreach (var id in PrerequisiteSubjectCodes)
-                {
-                   
-                    Subject preSub = await context.Subjects.FirstOrDefaultAsync(s => id == s.SubjectId);
-                    if (preSub == null)
+                    if (PrerequisiteSubjectCodes == null || PrerequisiteSubjectCodes.Count < 1)
                     {
-                        throw new ArgumentException($"Subject with the {id} subject code number does not exists");
+                        throw new ArgumentException("PrerequisiteSubjectCodes is empty or null");
                     }
-                    stringBuilder.Append($"{preSub.CodeNo},");
-                   
+                    subject.Prerequisite.Type = PrerequisiteType;
+                    subject.Prerequisite.Subjects = new List<PrerequisiteSubject>();
 
+                    foreach (var id in PrerequisiteSubjectCodes)
+                    {
+
+                        Subject preSub = await context.Subjects.FirstOrDefaultAsync(s => id == s.SubjectId);
+                        if (preSub == null)
+                        {
+                            throw new ArgumentException($"Subject with the {id} subject code number does not exists");
+                        }
+                        subject.Prerequisite.Subjects.Add(new PrerequisiteSubject()
+                        {
+                            SubjectId = preSub.SubjectId,
+                        });
+
+                    }
                 }
-                subject.Prerequisite.SubjectCodes = stringBuilder.ToString();
-            }
-            else if (PrerequisiteType == PrerequisiteType.TotalUnits)
-            {
-                subject.Prerequisite.Percentage = PrerequisitePercentage;
-            }
+                else if (PrerequisiteType == PrerequisiteType.TotalUnits)
+                {
+                    subject.Prerequisite.Percentage = PrerequisitePercentage;
+                }
+            } 
+            
 
             return subject;
 
