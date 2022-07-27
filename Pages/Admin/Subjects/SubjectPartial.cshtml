@@ -15,9 +15,6 @@
        
     </td>
     <td class="text-center"> 
-        <form asp-page-handler="Update">
-            <input type="hidden" name="subjectId" value="@Model.SubjectId" />
-        </form>
-        <button type="button" class="btn btn-warning updateModalBtn" data-bs-toggle="modal" data-bs-target="#updateModal"  data-id="@Model.SubjectId">Update</button>
+        <a asp-page="Update" asp-route-id="@Model.SubjectId">Edit</a>
     </td>
 </tr>

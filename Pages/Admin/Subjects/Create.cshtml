@@ -1,11 +1,11 @@
 @page 
 @model SubjectsModel
 @{
-    ViewData["Title"] = "Subjects";
+    ViewData["Title"] = "Add Subject";
 }
 <div class="my-2">
     <div class="my-3">
-        <h4>Manage Subjects</h4>
+        <h4>Add Subjects</h4>
     </div>
     <form method="post" id="addForm" asp-page-handler="Save" class="row">
         <div asp-validation-summary="All"></div>
@@ -74,32 +74,21 @@
     </thead>
 </table>
 
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Subject</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form asp-page-handler="Update" id="updateForm" asp-page="Subjects" class="modal-body row"></form>
-    </div>
-  </div>
-</div>
 
 @section Scripts {
 <script>
     $(document).ready(function(){
-        console.log("loaded");
-            $(".updateModalBtn").click(function(){
-                $(".modal-body").load(`/Admin/Subjects?handler=Subject&id=${$(this).data('id')}`, function() {
-                    $opts = $("#addForm #SubjectForm_PrerequisiteSubjectCodeNo option").clone();
-                    $updateForm =  $("#updateForm #SubjectForm_PrerequisiteSubjectCodeNo")
-                    $updateForm.append($opts);
-                    $updateForm.val($("#prerequisite").val());
-                })
+        //console.log("loaded");
+        //    $(".updateModalBtn").click(function(){
+        //        $(".modal-body").load(`/Admin/Subjects?handler=Subject&id=${$(this).data('id')}`, function() {
+        //            $opts = $("#addForm #preSubjectCodes select option").clone();
+        //            $updateForm =  $("#updateForm #preSubjectCodesUpdate select")
+        //            $updateForm.append($opts);
+        //            $updateForm.val($("#prerequisite").val());
+        //        })
                 
-                $("#updateModal").show();
-            });
+        //        $("#updateModal").show();
+        //    });
 
             $("#SubjectForm_PrerequisiteType").change(function(){
                 let pres = document.getElementsByClassName("pre");

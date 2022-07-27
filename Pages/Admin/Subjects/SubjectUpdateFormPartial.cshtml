@@ -1,0 +1,42 @@
+﻿@model SubjectsModel
+
+<input type="hidden" asp-for="PartialSubject.SubjectId" />
+@Html.AntiForgeryToken()
+<div class="col-3 my-2">
+    <label asp-for="SubjectForm.CodeNo"></label>
+    <input class="form-control" asp-for="SubjectForm.CodeNo" value="@Model.PartialSubject.CodeNo" />
+</div>
+<div class="col-12"></div>
+<div class="col-12 my-2">
+    <label asp-for="SubjectForm.DescriptiveTitle"></label>
+    <input class="form-control" asp-for="SubjectForm.DescriptiveTitle" value="@Model.PartialSubject.DescriptiveTitle" />
+</div>
+<div class="col-6 my-2">
+    <label asp-for="SubjectForm.Units"></label>
+    <select class="form-control" asp-for="SubjectForm.Units" asp-items="@Model.SelectUnits" ></select>
+</div>
+<div class="col-6 my-2">
+    <label asp-for="SubjectForm.ClassType"></label>
+    <select class="form-control" asp-for="SubjectForm.ClassType" asp-items="Model.SubjectTypes"></select>
+</div>
+<div class="col-6 my-2">
+    <label asp-for="SubjectForm.PrerequisiteType"></label>
+    <select class="form-control" asp-for="SubjectForm.PrerequisiteType" asp-items="Model.PrerequisiteTypes"></select>
+</div>
+<div id="preSubjectCodesUpdate" class="pre col-12 col-lg-3 my-2 d-none">
+    <label asp-for="SubjectForm.PrerequisiteSubjectCodes"></label>
+    <select class="form-control" asp-for="SubjectForm.PrerequisiteSubjectCodes" asp-items="Model.SubjectCodes"></select>
+</div>
+<div id="prePercentageUpdate" class="pre col-12 col-lg-3 my-2 d-none">
+    <label asp-for="SubjectForm.PrerequisitePercentage"></label>
+    <input class="form-control" asp-for="SubjectForm.PrerequisitePercentage" />
+</div>
+
+<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+</div>
+
+<script>
+    
+</script>

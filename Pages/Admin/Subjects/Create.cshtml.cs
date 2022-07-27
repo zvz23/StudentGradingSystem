@@ -9,10 +9,10 @@ using System.ComponentModel.DataAnnotations;
 using backend.Models;
 using backend.Data;
 using System.Text;
+using backend.Forms;
 
 namespace backend.Pages {
     public class SubjectsModel : PageModel {
-
         public SubjectsModel(GradingContext context, ILogger<SubjectsModel> logger) {
             _context = context;
             _logger = logger;
@@ -28,12 +28,15 @@ namespace backend.Pages {
         public List<SelectListItem> PrerequisiteTypes = Enum.GetNames(typeof(PrerequisiteType)).Select(pt => new SelectListItem() { Value = pt, Text = pt }).ToList();
         public List<SelectListItem> SelectUnits = new List<SelectListItem>() {
             new SelectListItem() { Value = "1", Text = "1" },
-            new SelectListItem() { Value = "2", Text = "2" },
-            new SelectListItem() { Value = "3", Text = "3" },
+            new SelectListItem() { Value = "2", Text = "2"},
+            new SelectListItem() { Value = "3", Text = "3", Selected = true },
             new SelectListItem() { Value = "4", Text = "4" },
             new SelectListItem() { Value = "5", Text = "5" },
             new SelectListItem() { Value = "6", Text = "6" },
         };
+        public Subject PartialSubject { get; set; }
+
+
         public List<Subject> Subjects { get; set; } = new();
         public async Task<IActionResult> OnGet() {
             if (_context.Subjects == null)
@@ -50,7 +53,7 @@ namespace backend.Pages {
                 Subject subject = await SubjectForm.MapToSubject(_context);
                 await _context.Subjects.AddAsync(subject);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("Subjects");
+                return RedirectToPage("Create");
             }
             LoadProperties();
             return Page();
@@ -61,6 +64,7 @@ namespace backend.Pages {
         {
             Subjects = await _context.Subjects
                 .Include(s => s.Prerequisite)
+                .ThenInclude(sp => sp.Subjects)
                 .ToListAsync();
             SubjectCodes = Subjects.Select(s => new SelectListItem() { Value = s.SubjectId.ToString(), Text = s.CodeNo }).ToList();
         }
@@ -80,20 +84,10 @@ namespace backend.Pages {
             }
             _context.Remove(subject);
             await _context.SaveChangesAsync();
-            return RedirectToPage("Subjects");
+            return RedirectToPage("Create");
         }
 
-        public async Task<IActionResult> OnPostUpdate()
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Subjects.Update(await SubjectForm.MapToSubject(_context));
-                await _context.SaveChangesAsync();
-                return RedirectToPage("Subjects");
-            }
-            await LoadProperties();
-            return Page();
-        }
+
 
         public async Task<IActionResult> OnGetSubject(int? id)
         {
@@ -101,14 +95,18 @@ namespace backend.Pages {
             {
                 return NotFound();
             }
-            Subject subject = await _context.Subjects
+            PartialSubject = await _context.Subjects
                 .Include(s => s.Prerequisite)
                 .ThenInclude(p => p.Subjects)
                 .FirstOrDefaultAsync(s => s.SubjectId == id);
-            if (SubjectForm == null)
+            if (PartialSubject == null)
             {
                 return NotFound();
             }
+            this.SubjectForm = new SubjectForm();
+            SubjectForm.CodeNo = PartialSubject.CodeNo;
+            SubjectForm.DescriptiveTitle = PartialSubject.DescriptiveTitle;
+
             return Partial("SubjectUpdateFormPartial", this);
 
         }
@@ -132,87 +130,4 @@ namespace backend.Pages {
         }
     }
 
-    public class SubjectForm
-    {
-        public int SubjectId { get; set; }
-        [BindRequired]
-        [Display(Name = "Code No.")]
-        public string CodeNo { get; set; }
-
-        [BindRequired]
-        [Display(Name = "Descriptive Title")]
-        public string DescriptiveTitle { get; set; }
-
-        [BindRequired]
-        public int Units { get; set; }
-
-        [BindRequired]
-        public ClassType ClassType { get; set; }
-
-        [BindRequired]
-        public PrerequisiteType PrerequisiteType { get; set; }
-        [Display(Name = "Prerequisite Percentage")]
-        public int? PrerequisitePercentage { get; set; }
-        [Display(Name = "Prerequisite Subjects")]
-        public List<int>? PrerequisiteSubjectCodes { get; set; }
-
-
-
-        public async Task<Subject> MapToSubject(GradingContext context)
-        {
-            Subject subject = new Subject()
-            {
-                CodeNo = CodeNo,
-                DescriptiveTitle = DescriptiveTitle,
-                Units = Units,
-                Type = ClassType,
-                Prerequisite = new Prerequisite()
-                {
-                    Type = PrerequisiteType,
-                    Subjects = new List<PrerequisiteSubject>()
-                   
-                }
-            };
-
-            if (PrerequisiteType != PrerequisiteType.None)
-            {
-                subject.Prerequisite = new Prerequisite();
-                if (PrerequisiteType == PrerequisiteType.Subject)
-                {
-                    if (PrerequisiteSubjectCodes == null || PrerequisiteSubjectCodes.Count < 1)
-                    {
-                        throw new ArgumentException("PrerequisiteSubjectCodes is empty or null");
-                    }
-                    subject.Prerequisite.Type = PrerequisiteType;
-                    subject.Prerequisite.Subjects = new List<PrerequisiteSubject>();
-
-                    foreach (var id in PrerequisiteSubjectCodes)
-                    {
-
-                        Subject preSub = await context.Subjects.FirstOrDefaultAsync(s => id == s.SubjectId);
-                        if (preSub == null)
-                        {
-                            throw new ArgumentException($"Subject with the {id} subject code number does not exists");
-                        }
-                        subject.Prerequisite.Subjects.Add(new PrerequisiteSubject()
-                        {
-                            SubjectId = preSub.SubjectId,
-                        });
-
-                    }
-                }
-                else if (PrerequisiteType == PrerequisiteType.TotalUnits)
-                {
-                    subject.Prerequisite.Percentage = PrerequisitePercentage;
-                }
-            } 
-            
-
-            return subject;
-
-        }
-        
-
-
-    }
 }

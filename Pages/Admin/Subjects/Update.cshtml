@@ -1,0 +1,81 @@
+﻿@page
+@model UpdateModel
+@{
+    ViewData["Title"] = "Update Subject";
+}
+
+<div class="my-2">
+    <div class="my-3">
+        <h4>Update Subject</h4>
+    </div>
+    <form id="updateForm" method="post" class="row">
+        <div asp-validation-summary="All"></div>
+        <input type="hidden" asp-for="SubjectForm.SubjectId" />
+        <div class="col-12 col-lg-3 my-2">
+            <label asp-for="SubjectForm.CodeNo"></label>
+            <input class="form-control" asp-for="SubjectForm.CodeNo" />
+            <span class="text-danger" asp-validation-for="SubjectForm.CodeNo"></span>
+        </div>
+        <div class="col-12"></div>
+        <div class="col-12 col-lg-6 my-2">
+            <label asp-for="SubjectForm.DescriptiveTitle"></label>
+            <input class="form-control" asp-for="SubjectForm.DescriptiveTitle" />
+            <span class="text-danger" asp-validation-for="SubjectForm.DescriptiveTitle"></span>
+        </div>
+        <div class="col-12"></div>
+        <div class="col-12 col-lg-3 my-2">
+            <label asp-for="SubjectForm.Units"></label>
+            <select class="form-control" asp-for="SubjectForm.Units" asp-items="Model.SelectUnits"></select>
+            <span class="text-danger" asp-validation-for="SubjectForm.Units"></span>
+        </div>
+        <div class="col-12 col-lg-3 my-2">
+            <label asp-for="SubjectForm.ClassType"></label>
+            <select class="form-control" asp-for="SubjectForm.ClassType" asp-items="Model.SubjectTypes"></select>
+            <span class="text-danger" asp-validation-for="SubjectForm.ClassType"></span>
+        </div>
+        <div class="col-12"></div>
+     <div class="col-12 col-lg-3 my-2">
+        <label asp-for="SubjectForm.PrerequisiteType"></label>
+        <select class="form-control" asp-for="SubjectForm.PrerequisiteType" asp-items="Model.PrerequisiteTypes"></select>
+    </div>
+
+    <div id="preSubjectCodes" class="pre col-12 col-lg-3 my-2 d-none">
+        <label asp-for="SubjectForm.PrerequisiteSubjectCodes"></label>
+        <select class="form-control" asp-for="SubjectForm.PrerequisiteSubjectCodes" asp-items="Model.SubjectCodes"></select>
+    </div>
+    <div id="prePercentage" class="pre col-12 col-lg-3 my-2 d-none">
+        <label asp-for="SubjectForm.PrerequisitePercentage"></label>
+        <input class="form-control" asp-for="SubjectForm.PrerequisitePercentage" />
+    </div>
+   
+    <div class="col-12 my-2">
+        <a class="btn btn-primary" asp-page="Create">Go back </a>
+        <input type="submit" class="btn btn-warning" value="Update" />
+    </div>
+
+    </form>
+</div>
+@section Scripts {
+<script>
+    $(document).ready(function(){
+
+            $("#SubjectForm_PrerequisiteType").change(function(){
+                let pres = document.getElementsByClassName("pre");
+                for (var i = 0; i < pres.length; i++) {
+                    $(pres[i]).addClass("d-none");
+                }
+                switch($(this).val()) {
+                    case "None":
+                        break;
+                    case "Subject":
+                        $("#preSubjectCodes").removeClass("d-none");
+                        break;
+                    case "TotalUnits":
+                        $("#prePercentage").removeClass("d-none");
+                        break;
+                }
+            })
+            
+    });
+</script>
+}
