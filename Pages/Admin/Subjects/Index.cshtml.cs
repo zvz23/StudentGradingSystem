@@ -2,14 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using backend.Models;
 using backend.Data;
-using System.Text;
 using backend.Forms;
+using backend.Forms.Helpers;
 
 namespace backend.Pages {
     public class IndexModel : PageModel {
@@ -48,9 +45,9 @@ namespace backend.Pages {
         }
 
         public async Task<IActionResult> OnPostSave() {
-            ValidatePrerequisites(SubjectForm, this);
+            SubjectHelper.ValidatePrerequisites(SubjectForm, this);
             if (ModelState.IsValid) {
-                Subject subject = await SubjectForm.MapToSubject(_context);
+                Subject subject = await SubjectHelper.MapToSubject(SubjectForm, _context);
                 await _context.Subjects.AddAsync(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("Index");
@@ -110,24 +107,7 @@ namespace backend.Pages {
             return Partial("SubjectUpdateFormPartial", this);
 
         }
-        private void ValidatePrerequisites(SubjectForm form, PageModel pageModel)
-        {
-            switch (form.PrerequisiteType)
-            {
-                case PrerequisiteType.Subject:
-                    if (form.PrerequisiteSubjectCodes == null || form.PrerequisiteSubjectCodes.Count < 1)
-                    {
-                        pageModel.ModelState.AddModelError("All", "Please select at least 1 prerequisite subject");
-                    }
-                    break;
-                case PrerequisiteType.TotalUnits:
-                    if (form.PrerequisitePercentage == null)
-                    {
-                        pageModel.ModelState.AddModelError("All", "Please enter a valid percentage");
-                    }
-                    break;
-            }
-        }
+        
     }
 
 }

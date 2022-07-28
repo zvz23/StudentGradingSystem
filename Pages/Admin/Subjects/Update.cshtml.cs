@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Forms;
+using backend.Forms.Helpers;
 
 namespace backend.Pages
 {
@@ -46,13 +47,24 @@ namespace backend.Pages
                 return NotFound();
             }
             await LoadProperties(subject);
-            SubjectForm = SubjectForm.FromSubject(subject);
+            SubjectForm = SubjectHelper.FromSubject(subject);
             return Page();
         }
 
-        public async Task<IActionResult> OnPost([FromForm] int? subjectId) {
+        public async Task<IActionResult> OnPost() {
+            if (SubjectForm.SubjectId == null)
+            {
+                return BadRequest();
+            }
+
+            SubjectHelper.ValidatePrerequisites(SubjectForm, this);
             if (ModelState.IsValid) {
-                Subject toUpdateSubject = _context.Subject.FindAsync(subjectId);
+                Subject toUpdateSubject = await _context.Subjects
+                    .Where(s => s.SubjectId == SubjectForm.SubjectId)
+                    .Include(s => s.Prerequisite)
+                    .ThenInclude(p => p.Subjects)
+                    .FirstAsync();
+
                 if (toUpdateSubject == null) {
                     return NotFound();
                 }
@@ -60,9 +72,23 @@ namespace backend.Pages
                 toUpdateSubject.DescriptiveTitle = SubjectForm.DescriptiveTitle;
                 toUpdateSubject.Units = SubjectForm.Units;
                 toUpdateSubject.Type = SubjectForm.ClassType;
-                toUpdateSubject.Prerequisite = new Prerequisite() {
-                    Type = SubjectForm.PrerequisiteType,
-                };
+                toUpdateSubject.Prerequisite.Type = SubjectForm.PrerequisiteType;
+
+                switch (SubjectForm.PrerequisiteType)
+                {
+                    case PrerequisiteType.Subject:
+                        List<PrerequisiteSubject> prerequisiteSubjects = await SubjectHelper.GetPrerequisiteSubjectsFromIds(SubjectForm.PrerequisiteSubjectIds, _context);
+                        toUpdateSubject.Prerequisite.Subjects = prerequisiteSubjects;
+                        break;
+                    case PrerequisiteType.TotalUnits:
+                        toUpdateSubject.Prerequisite.Percentage = SubjectForm.PrerequisitePercentage;
+                        break;
+                    default:
+                        break;
+
+                }
+                _context.Subjects.Update(toUpdateSubject);
+                await _context.SaveChangesAsync();
                 return RedirectToPage("Index");
             }
             return Page();
