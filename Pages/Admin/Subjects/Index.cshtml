@@ -1,5 +1,5 @@
 @page 
-@model SubjectsModel
+@model IndexModel
 @{
     ViewData["Title"] = "Add Subject";
 }
@@ -62,7 +62,7 @@
             <th>Descriptive Title</th>
             <th>Units</th>
             <th>Type</th>
-            <th>Pre-requisite</th>
+            <th>Prerequisite</th>
             <th class="text-center" colspan="2">Actions</th>
         </tr>
         <tbody>
@@ -73,7 +73,26 @@
         </tbody>
     </thead>
 </table>
-
+<div id="deleteModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Subject</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this subject?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form asp-page-handler="Delete">
+            <input id="subjectId" type="hidden" name="subjectId" value="" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
 <script>
@@ -89,7 +108,10 @@
                 
         //        $("#updateModal").show();
         //    });
-
+            $(".deleteModalBtn").click(function() {
+                $deleteSubjectId = $(this).data("id");
+                document.getElementById("subjectId").value = $deleteSubjectId;
+            })
             $("#SubjectForm_PrerequisiteType").change(function(){
                 let pres = document.getElementsByClassName("pre");
                 for (var i = 0; i < pres.length; i++) {

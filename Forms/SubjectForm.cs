@@ -47,43 +47,30 @@ namespace backend.Forms
                 }
             };
 
-            if (PrerequisiteType != PrerequisiteType.None)
-            {
-                subject.Prerequisite = new Prerequisite();
-                subject.Prerequisite.Type = PrerequisiteType;
-
-                if (PrerequisiteType == PrerequisiteType.Subject)
-                {
-                    if (PrerequisiteSubjectCodes == null || PrerequisiteSubjectCodes.Count < 1)
-                    {
+            switch(PrerequisiteType) {
+                case PrerequisiteType.Subject:
+                    if (PrerequisiteSubjectCodes == null || PrerequisiteSubjectCodes.Count < 1) {
                         throw new ArgumentException("PrerequisiteSubjectCodes is empty or null");
                     }
-                    subject.Prerequisite.Subjects = new List<PrerequisiteSubject>();
-
                     foreach (var id in PrerequisiteSubjectCodes)
                     {
-
                         Subject preSub = await context.Subjects.FirstOrDefaultAsync(s => id == s.SubjectId);
-                        if (preSub == null)
-                        {
+                        if (preSub == null) {
                             throw new ArgumentException($"Subject with the {id} subject code number does not exists");
                         }
-                        subject.Prerequisite.Subjects.Add(new PrerequisiteSubject()
-                        {
+                        subject.Prerequisite.Subjects.Add(new PrerequisiteSubject() {
                             SubjectId = preSub.SubjectId,
                         });
-
                     }
-                }
-                else if (PrerequisiteType == PrerequisiteType.TotalUnits)
-                {
+                    break;
+                case PrerequisiteType.TotalUnits:
                     subject.Prerequisite.Percentage = PrerequisitePercentage;
-                }
+                    break;
+                default:
+                    break;
             }
 
-
             return subject;
-
         }
 
         public static SubjectForm FromSubject(Subject subject)

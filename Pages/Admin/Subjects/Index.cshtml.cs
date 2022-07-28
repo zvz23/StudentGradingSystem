@@ -12,12 +12,12 @@ using System.Text;
 using backend.Forms;
 
 namespace backend.Pages {
-    public class SubjectsModel : PageModel {
-        public SubjectsModel(GradingContext context, ILogger<SubjectsModel> logger) {
+    public class IndexModel : PageModel {
+        public IndexModel(GradingContext context, ILogger<IndexModel> logger) {
             _context = context;
             _logger = logger;
         }
-        private readonly ILogger<SubjectsModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
         private readonly GradingContext _context;
         
 
@@ -29,7 +29,7 @@ namespace backend.Pages {
         public List<SelectListItem> SelectUnits = new List<SelectListItem>() {
             new SelectListItem() { Value = "1", Text = "1" },
             new SelectListItem() { Value = "2", Text = "2"},
-            new SelectListItem() { Value = "3", Text = "3", Selected = true },
+            new SelectListItem() { Value = "3", Text = "3" },
             new SelectListItem() { Value = "4", Text = "4" },
             new SelectListItem() { Value = "5", Text = "5" },
             new SelectListItem() { Value = "6", Text = "6" },
@@ -53,9 +53,9 @@ namespace backend.Pages {
                 Subject subject = await SubjectForm.MapToSubject(_context);
                 await _context.Subjects.AddAsync(subject);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("Create");
+                return RedirectToPage("Index");
             }
-            LoadProperties();
+            await LoadProperties();
             return Page();
         }
 
@@ -84,7 +84,7 @@ namespace backend.Pages {
             }
             _context.Remove(subject);
             await _context.SaveChangesAsync();
-            return RedirectToPage("Create");
+            return RedirectToPage("Index");
         }
 
 

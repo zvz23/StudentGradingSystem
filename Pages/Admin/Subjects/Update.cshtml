@@ -49,7 +49,7 @@
     </div>
    
     <div class="col-12 my-2">
-        <a class="btn btn-primary" asp-page="Create">Go back </a>
+        <a class="btn btn-primary" asp-page="Index">Go back </a>
         <input type="submit" class="btn btn-warning" value="Update" />
     </div>
 
@@ -58,7 +58,6 @@
 @section Scripts {
 <script>
     $(document).ready(function(){
-
             $("#SubjectForm_PrerequisiteType").change(function(){
                 let pres = document.getElementsByClassName("pre");
                 for (var i = 0; i < pres.length; i++) {
@@ -75,6 +74,8 @@
                         break;
                 }
             })
+            $("#SubjectForm_PrerequisiteType").change()
+
             
     });
 </script>

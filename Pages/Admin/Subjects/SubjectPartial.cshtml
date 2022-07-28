@@ -8,11 +8,7 @@
     <td>@Model.Type</td>
     <td>@Model.Prerequisite</td>
     <td class="text-center">
-        <form asp-page="Subjects" asp-page-handler="Delete">
-            <input type="hidden" name="subjectId" value="@Model.SubjectId" />
-            <input type="submit" class="btn btn-danger" value="Delete" />
-        </form>
-       
+        <a role="button" class="text-danger deleteModalBtn" data-bs-toggle="modal" data-id="@Model.SubjectId" data-bs-target="#deleteModal">Delete</a> 
     </td>
     <td class="text-center"> 
         <a asp-page="Update" asp-route-id="@Model.SubjectId">Edit</a>
