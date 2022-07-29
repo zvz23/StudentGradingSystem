@@ -7,10 +7,8 @@
     <td>@Model.Units</td>
     <td>@Model.Type</td>
     <td>@Model.Prerequisite</td>
-    <td class="text-center">
-        <a role="button" class="text-danger deleteModalBtn" data-bs-toggle="modal" data-id="@Model.SubjectId" data-bs-target="#deleteModal">Delete</a> 
-    </td>
-    <td class="text-center"> 
-        <a asp-page="Update" asp-route-id="@Model.SubjectId">Edit</a>
+    <td>
+        <a role="button" class="text-red-600 hover:underline deleteModalBtn mr-2" data-id="@Model.SubjectId" data-modal-toggle="popup-modal">Delete</a> 
+        <a asp-page="Update" class="text-blue-400 hover:underline" asp-route-id="@Model.SubjectId">Edit</a>
     </td>
 </tr>
