@@ -9,7 +9,7 @@ namespace backend.Data {
         base(options) {
 
         }
-
+        public DbSet<StudentAccount>? StudentAccounts { get; set; }
         public DbSet<Subject>? Subjects { get; set; }
         public DbSet<Models.Program>? Programs { get; set; }
         public DbSet<Prerequisite>? Prerequisites { get; set; }
