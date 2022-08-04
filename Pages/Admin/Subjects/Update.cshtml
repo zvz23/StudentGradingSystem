@@ -3,57 +3,61 @@
 @{
     ViewData["Title"] = "Update Subject";
 }
+<div class="relative">
 
-<div class="my-2">
-    <div class="my-3">
-        <h4>Update Subject</h4>
-    </div>
-    <form id="updateForm" method="post" asp-page="Update" class="row">
-        <div asp-validation-summary="All"></div>
-        <input type="hidden" asp-for="SubjectForm.SubjectId" />
-        <div class="col-12 col-lg-3 my-2">
-            <label asp-for="SubjectForm.CodeNo"></label>
-            <input class="form-control" asp-for="SubjectForm.CodeNo" />
-            <span class="text-danger" asp-validation-for="SubjectForm.CodeNo"></span>
-        </div>
-        <div class="col-12"></div>
-        <div class="col-12 col-lg-6 my-2">
-            <label asp-for="SubjectForm.DescriptiveTitle"></label>
-            <input class="form-control" asp-for="SubjectForm.DescriptiveTitle" />
-            <span class="text-danger" asp-validation-for="SubjectForm.DescriptiveTitle"></span>
-        </div>
-        <div class="col-12"></div>
-        <div class="col-12 col-lg-3 my-2">
-            <label asp-for="SubjectForm.Units"></label>
-            <select class="form-control" asp-for="SubjectForm.Units" asp-items="Model.SelectUnits"></select>
-            <span class="text-danger" asp-validation-for="SubjectForm.Units"></span>
-        </div>
-        <div class="col-12 col-lg-3 my-2">
-            <label asp-for="SubjectForm.ClassType"></label>
-            <select class="form-control" asp-for="SubjectForm.ClassType" asp-items="Model.SubjectTypes"></select>
-            <span class="text-danger" asp-validation-for="SubjectForm.ClassType"></span>
-        </div>
-        <div class="col-12"></div>
-     <div class="col-12 col-lg-3 my-2">
-        <label asp-for="SubjectForm.PrerequisiteType"></label>
-        <select class="form-control" asp-for="SubjectForm.PrerequisiteType" asp-items="Model.PrerequisiteTypes"></select>
-    </div>
+</div>
+<div class="relative">
+    <h1 class="text-2xl font-medium underline my-2">Update Subject</h1>
+    <div class="flex">
+        <div class="basis-full lg:basis-1/2">
+            <form id="updateForm" method="post" asp-page="Update" class="grid grid-cols-2 gap-x-2">
+                <input type="hidden" asp-for="SubjectForm.SubjectId" />
+                <div class="mb-2">
+                    <label asp-for="SubjectForm.CodeNo"></label>
+                    <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.CodeNo" />
+                    <span class="text-red-500" asp-validation-for="SubjectForm.CodeNo"></span>
+                </div>
+                <div class="col-span-full mb-2">
+                    <label asp-for="SubjectForm.DescriptiveTitle"></label>
+                    <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.DescriptiveTitle" />
+                    <span class="text-red-500" asp-validation-for="SubjectForm.DescriptiveTitle"></span>
+                </div>
+                <div class="mb-2">
+                    <label asp-for="SubjectForm.Units"></label>
+                    <select class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.Units" asp-items="Model.SelectUnits"></select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.Units"></span>
+                </div>
+                <div class="mb-2">
+                    <label asp-for="SubjectForm.ClassType"></label>
+                    <select class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.ClassType" asp-items="Model.SubjectTypes"></select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.ClassType"></span>
+                </div>
+                <div class="mb-2">
+                    <label asp-for="SubjectForm.PrerequisiteType"></label>
+                    <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow" asp-for="SubjectForm.PrerequisiteType" asp-items="Model.PrerequisiteTypes"></select>
+                </div>
 
-    <div id="preSubjectCodes" class="pre col-12 col-lg-3 my-2 d-none">
-        <label asp-for="SubjectForm.PrerequisiteSubjectIds"></label>
-        <select class="form-control" asp-for="SubjectForm.PrerequisiteSubjectIds" asp-items="Model.SubjectCodes"></select>
-    </div>
-    <div id="prePercentage" class="pre col-12 col-lg-3 my-2 d-none">
-        <label asp-for="SubjectForm.PrerequisitePercentage"></label>
-        <input class="form-control" asp-for="SubjectForm.PrerequisitePercentage" />
-    </div>
-   
-    <div class="col-12 my-2">
-        <a class="btn btn-primary" asp-page="Index">Go back </a>
-        <input type="submit" class="btn btn-warning" value="Update" />
-    </div>
+                <div id="preSubjectCodes" class="pre mb-2 hidden">
+                    <label asp-for="SubjectForm.PrerequisiteSubjectIds"></label>
+                    <select class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.PrerequisiteSubjectIds" asp-items="Model.SubjectCodes"></select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.PrerequisiteSubjectIds"></span>
 
-    </form>
+                </div>
+                <div id="prePercentage" class="pre mb-2 hidden">
+                    <label asp-for="SubjectForm.PrerequisitePercentage"></label>
+                    <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.PrerequisitePercentage" />
+                    <span class="text-red-500" asp-validation-for="SubjectForm.PrerequisitePercentage"></span>
+
+                </div>
+            
+                <div class="col-span-full justify-self-end mb-2 flex">
+                    <a class="rounded bg-blue-400 hover:bg-blue-500 py-2 px-3 mr-2 font-medium" asp-page="Index">Go back </a>
+                    <input type="submit" class="rounded bg-yellow-400 hover:bg-yellow-500 py-2 px-3 font-medium" value="Update" />
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
 @section Scripts {
 <script>
@@ -61,20 +65,20 @@
             $("#SubjectForm_PrerequisiteType").change(function(){
                 let pres = document.getElementsByClassName("pre");
                 for (var i = 0; i < pres.length; i++) {
-                    $(pres[i]).addClass("d-none");
+                    $(pres[i]).addClass("hidden");
                 }
                 switch($(this).val()) {
                     case "None":
                         break;
                     case "Subject":
-                        $("#preSubjectCodes").removeClass("d-none");
+                        $("#preSubjectCodes").removeClass("hidden");
                         break;
                     case "TotalUnits":
-                        $("#prePercentage").removeClass("d-none");
+                        $("#prePercentage").removeClass("hidden");
                         break;
                 }
             })
-            $("#SubjectForm_PrerequisiteType").change()
+            $("#SubjectForm_PrerequisiteType").change();
 
             
     });

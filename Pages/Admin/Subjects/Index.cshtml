@@ -6,49 +6,48 @@
 <div class="relative">
     <h1 class="text-2xl font-medium underline my-2">Add Subjects</h1>
     <div class="flex mb-5">
-        <div class="basis-1/2">
-            <form method="post" id="addForm" asp-page-handler="Save" class="grid grid-cols-3 gap-x-3">
-                <div class="col-span-3" asp-validation-summary="All"></div>
-                <div class="col-span-1 my-2">
+        <div class="basis-full lg:basis-1/2">
+            <form method="post" id="addForm" asp-page-handler="Save" class="grid grid-cols-2 gap-x-2">
+                <div class="mb-2">
                     <label asp-for="SubjectForm.CodeNo"></label>
                     <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.CodeNo" />
-                    <span class="text-danger" asp-validation-for="SubjectForm.CodeNo"></span>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.CodeNo"></span>
                 </div>
-                <div class="col-span-2"></div>
-                <div class="col-span-2">
+                <div class="col-span-full mb-2">
                     <label asp-for="SubjectForm.DescriptiveTitle"></label>
                     <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.DescriptiveTitle" />
-                    <span class="text-danger" asp-validation-for="SubjectForm.DescriptiveTitle"></span>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.DescriptiveTitle"></span>
 
                 </div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 mb-2">
+                <div class="mb-2">
                     <label asp-for="SubjectForm.Units"></label>
                     <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow" asp-for="SubjectForm.Units" asp-items="Model.SelectUnits"></select>
-                    <span class="text-danger" asp-validation-for="SubjectForm.Units"></span>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.Units"></span>
                 </div>
-                <div class="col-span-1 mb-2">
+                <div class="mb-2">
                     <label asp-for="SubjectForm.ClassType"></label>
                     <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow" asp-for="SubjectForm.ClassType" asp-items="Model.SubjectTypes"></select>
-                    <span class="text-danger" asp-validation-for="SubjectForm.ClassType"></span>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.ClassType"></span>
 
                 </div>
-                <div class="col-span-1"></div>
-                <div class="col-span-1 mb-2">
+                <div class="mb-2">
                     <label asp-for="SubjectForm.PrerequisiteType"></label>
                     <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow" asp-for="SubjectForm.PrerequisiteType" asp-items="Model.PrerequisiteTypes"></select>
                 </div>
-                <div id="preSubjectCodes" class="pre col-span-1 hidden mb-2">
+                <div id="preSubjectCodes" class="pre hidden mb-2">
                     <label asp-for="SubjectForm.PrerequisiteSubjectIds"></label>
                     <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow" asp-for="SubjectForm.PrerequisiteSubjectIds" asp-items="Model.SubjectCodes"></select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.PrerequisiteSubjectIds"></span>
+
                 </div>
-                <div id="prePercentage" class="pre col-span-1 hidden mb-2">
+                <div id="prePercentage" class="pre hidden mb-2">
                     <label asp-for="SubjectForm.PrerequisitePercentage"></label>
                     <input class="bg-slate-100 shadow py-1.5 px-2 w-full rounded" asp-for="SubjectForm.PrerequisitePercentage" />
+                    <span class="text-red-500" asp-validation-for="SubjectForm.PrerequisitePercentage"></span>
+
                 </div>
-                <div class="col-span-3"></div>
-                <div class="col-span-2 justify-self-end mb-2">
-                    <input type="submit" class="rounded bg-blue-900 py-2 px-4 text-white font-medium" value="Add" />
+                <div class="col-span-full justify-self-end mb-2">
+                    <input type="submit" class="rounded bg-sky-800 hover:bg-blue-900 py-2 px-4 text-white font-medium" value="Add" />
                 </div>
             </form>
         </div>
@@ -76,7 +75,7 @@
         </thead>
     </table>
 
-<div id="popup-modal" tabindex="-1" class="overflow-y-auto overflow-x-hidden top-1/2 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2  z-50  h-modal md:h-full">
+<div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden top-1/2 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2  z-50  h-modal md:h-full">
     <div class="p-4 w-full max-w-md h-full md:h-auto">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button type="button" class="closeBtn absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal">
@@ -139,6 +138,7 @@
                         break;
                 }
             })
+            $("#SubjectForm_PrerequisiteType").change();
             
     });
 </script>

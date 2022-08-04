@@ -94,13 +94,13 @@ namespace backend.Forms.Helpers
                 case PrerequisiteType.Subject:
                     if (form.PrerequisiteSubjectIds == null || form.PrerequisiteSubjectIds.Count < 1)
                     {
-                        pageModel.ModelState.AddModelError("All", "Please select at least 1 prerequisite subject");
+                        pageModel.ModelState.AddModelError("SubjectForm.PrerequisiteSubjectIds", "Please select at least 1 prerequisite subject");
                     }
                     break;
                 case PrerequisiteType.TotalUnits:
                     if (form.PrerequisitePercentage == null)
                     {
-                        pageModel.ModelState.AddModelError("All", "Please enter a valid percentage");
+                        pageModel.ModelState.AddModelError("SubjectForm.PrerequisitePercentage", "Please enter a valid percentage");
                     }
                     break;
             }
