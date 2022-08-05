@@ -10,7 +10,9 @@ namespace backend.Models {
         public string DescriptiveTitle { get; set; }
         public int Units { get; set; }
         public ClassType Type { get; set; }
-        public List<Program> Programs { get; set; }
+        public Year Year { get; set; }
+        public Semester Semester { get; set; }
+        public Program? Program { get; set; }
         public Prerequisite? Prerequisite { get; set; }
 
     }
@@ -71,6 +73,19 @@ namespace backend.Models {
     {
         LEC,
         LAB
+    }
+
+    public enum Semester {
+        FIRST = 1 ,
+        SECOND = 2
+    }
+
+    public enum Year {
+        FIRST = 100,
+        SECOND = 200,
+        THIRD = 300,
+        MIDYEAR = 350,
+        FOURTH = 400,
     }
 
     

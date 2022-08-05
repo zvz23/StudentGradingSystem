@@ -11,6 +11,8 @@ namespace backend.Models
         [BindRequired]
 
         public string ProgramHead { get; set; }
+        public string ProgramHeadId { get; set; }
+
 
         [BindNever]
         public ICollection<Subject> Subjects { get; set; }

@@ -46,6 +46,34 @@
                     <span class="text-red-500" asp-validation-for="SubjectForm.PrerequisitePercentage"></span>
 
                 </div>
+                <div class="mb-2">
+                    <label>Program</label>
+                    <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow">
+                        <option>BS Computer Science</option>
+                        <option>BS Information Systems</option>
+                    </select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.ClassType"></span>
+                </div>
+                <div class="mb-2">
+                    <label>Year</label>
+                    <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow">
+                        <option>1st</option>
+                        <option>2nd</option>
+                        <option>3rd</option>
+                        <option>4th</option>
+                        <option>Mid-Year</option>
+                    </select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.ClassType"></span>
+                </div>
+                <div class="mb-2">
+                    <label>Semester</label>
+                    <select class="w-full bg-slate-100 py-1.5 px-2 rounded shadow">
+                        <option>1st</option>
+                        <option>2nd</option>
+                    </select>
+                    <span class="text-red-500" asp-validation-for="SubjectForm.ClassType"></span>
+                </div>
+                
                 <div class="col-span-full justify-self-end mb-2">
                     <input type="submit" class="rounded bg-sky-800 hover:bg-blue-900 py-2 px-4 text-white font-medium" value="Add" />
                 </div>
