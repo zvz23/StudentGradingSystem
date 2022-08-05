@@ -25,6 +25,15 @@ namespace backend.Data {
             modelBuilder.Entity<Subject>()
                 .Property(s => s.Type)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Subject>()
+                .Property(s => s.Year)
+                .HasConversion<string>();
+            
+            modelBuilder.Entity<Subject>()
+                .Property(s => s.Semester)
+                .HasConversion<string>();
+
         }
     }
 }

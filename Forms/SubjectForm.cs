@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using backend.Models;
-using backend.Data;
 
 namespace backend.Forms
 {
@@ -22,6 +21,12 @@ namespace backend.Forms
         [BindRequired]
         [Display(Name = "Class Type")]
         public ClassType ClassType { get; set; }
+        [BindRequired]
+        public int ProgramId { get; set;}
+        [BindRequired]
+        public Semester Semester { get; set; }
+        [BindRequired]
+        public Year Year { get; set; }
 
         [BindRequired]
         public PrerequisiteType PrerequisiteType { get; set; }

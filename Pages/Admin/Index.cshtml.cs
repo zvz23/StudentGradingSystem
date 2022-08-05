@@ -31,16 +31,17 @@ namespace backend.Pages {
             new SelectListItem() { Value = "5", Text = "5" },
             new SelectListItem() { Value = "6", Text = "6" },
         };
+
+        public List<SelectListItem> Semesters = Enum.GetNames(typeof(Semester)).Select(s => new SelectListItem() { Value = s, Text = s}).ToList();
+        public List<SelectListItem> Years = Enum.GetNames(typeof(Year)).Select(y => new SelectListItem() { Value = y, Text = y}).ToList();
         public Subject PartialSubject { get; set; }
 
 
-        public List<Subject> Subjects { get; set; } = new();
         public async Task<IActionResult> OnGet() {
             if (_context.Subjects == null)
             {
                 return BadRequest();
             }
-            await LoadProperties();
             return Page();
         }
 
@@ -52,19 +53,9 @@ namespace backend.Pages {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("Index");
             }
-            await LoadProperties();
             return Page();
         }
 
-
-        private async Task LoadProperties()
-        {
-            Subjects = await _context.Subjects
-                .Include(s => s.Prerequisite)
-                .ThenInclude(sp => sp.Subjects)
-                .ToListAsync();
-            SubjectCodes = Subjects.Select(s => new SelectListItem() { Value = s.SubjectId.ToString(), Text = s.CodeNo }).ToList();
-        }
 
         public async Task<IActionResult> OnPostDelete([FromForm] int? subjectId)
         {

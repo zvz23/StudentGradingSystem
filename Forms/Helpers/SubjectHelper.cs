@@ -50,6 +50,8 @@ namespace backend.Forms.Helpers
                 DescriptiveTitle = form.DescriptiveTitle,
                 Units = form.Units,
                 Type = form.ClassType,
+                Semester = form.Semester,
+                Year = form.Year,
                 Prerequisite = new Prerequisite()
                 {
                     Type = form.PrerequisiteType,
@@ -57,6 +59,12 @@ namespace backend.Forms.Helpers
 
                 }
             };
+
+            backend.Models.Program program = await context.Programs.FindAsync(form.ProgramId);
+            if (program == null) {
+                throw new ArgumentException("Program Id is not valid");
+            }
+            subject.Program = program;
 
             switch (form.PrerequisiteType)
             {

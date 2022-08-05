@@ -13,6 +13,7 @@ namespace backend.Models {
         public Year Year { get; set; }
         public Semester Semester { get; set; }
         public Program? Program { get; set; }
+
         public Prerequisite? Prerequisite { get; set; }
 
     }
