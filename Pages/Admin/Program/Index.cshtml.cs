@@ -40,7 +40,10 @@ namespace backend.Pages.Admin.Program
             }
             _context.Programs.Remove(program);
             await _context.SaveChangesAsync();
-            return RedirectToPage("Index");
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            result.Add("Status Code", "200");
+            result.Add("IsDeleted", "true");
+            return new JsonResult(result);
 
         }
     }
