@@ -38,7 +38,7 @@ namespace backend.Pages
         public Subject PartialSubject { get; set; }
         public void OnGet()
         {
-            SelectPrograms = _context.Programs.AsEnumerable().Select(p => new SelectListItem() { Text = p.ProgramName, Value = p.ProgramId.ToString()}).ToList();
+            SelectPrograms = _context.Programs.AsEnumerable().Select(p => new SelectListItem() { Text = p.ProgramName, Value = p.SchoolProgramId.ToString()}).ToList();
             SubjectCodes  = _context.Subjects.AsEnumerable().Select(s => new SelectListItem() { Text = s.CodeNo, Value = s.SubjectId.ToString()}).ToList();
         }
 

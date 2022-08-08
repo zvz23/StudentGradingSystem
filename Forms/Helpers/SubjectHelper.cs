@@ -15,7 +15,7 @@ namespace backend.Forms.Helpers
                 CodeNo = subject.CodeNo,
                 DescriptiveTitle = subject.DescriptiveTitle,
                 Units = subject.Units,
-                ClassType = subject.Type,
+                ClassType = subject.ClassType,
             };
             if (subject.Prerequisite != null)
             {
@@ -49,7 +49,7 @@ namespace backend.Forms.Helpers
                 CodeNo = form.CodeNo,
                 DescriptiveTitle = form.DescriptiveTitle,
                 Units = form.Units,
-                Type = form.ClassType,
+                ClassType = form.ClassType,
                 Semester = form.Semester,
                 Year = form.Year,
                 Prerequisite = new Prerequisite()
@@ -60,11 +60,11 @@ namespace backend.Forms.Helpers
                 }
             };
 
-            backend.Models.Program program = await context.Programs.FindAsync(form.ProgramId);
+            SchoolProgram program = await context.Programs.FindAsync(form.ProgramId);
             if (program == null) {
                 throw new ArgumentException("Program Id is not valid");
             }
-            subject.Program = program;
+            subject.SchoolProgram = program;
 
             switch (form.PrerequisiteType)
             {

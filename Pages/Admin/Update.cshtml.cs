@@ -71,7 +71,7 @@ namespace backend.Pages
                 toUpdateSubject.CodeNo = SubjectForm.CodeNo;
                 toUpdateSubject.DescriptiveTitle = SubjectForm.DescriptiveTitle;
                 toUpdateSubject.Units = SubjectForm.Units;
-                toUpdateSubject.Type = SubjectForm.ClassType;
+                toUpdateSubject.ClassType = SubjectForm.ClassType;
                 toUpdateSubject.Prerequisite.Type = SubjectForm.PrerequisiteType;
 
                 switch (SubjectForm.PrerequisiteType)

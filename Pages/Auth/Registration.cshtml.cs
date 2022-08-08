@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Forms;
 using backend.Forms.Helpers;
+using backend.Models;
 
 
 namespace backend.Pages
@@ -28,7 +29,7 @@ namespace backend.Pages
         public async Task<IActionResult> OnPost() {
             if (ModelState.IsValid) {
                 StudentAccount studentAccount = StudentAccountHelper.MapToStudentAccount(SignupForm);
-                await _context.StudentAccounts.AddAsync(studentAccount);
+                await _context.Students.AddAsync(studentAccount);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("signup_message", "Your registration has been successfully completed. Please wait for the Program Head to approve your registration.");
                 return RedirectToPage("Registration");

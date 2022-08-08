@@ -1,0 +1,14 @@
+Student
+- Registration
+- View Grades
+
+Program Head
+- Add/Edit Grades
+- Accept new user
+- Edit user
+- Remove user
+
+Administartor
+ - All Program Head rights
+ - Add new program
+ - Add/Edit/Delete subjects to program

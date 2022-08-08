@@ -9,12 +9,23 @@ namespace backend.Models {
         public string CodeNo { get; set; }
         public string DescriptiveTitle { get; set; }
         public int Units { get; set; }
-        public ClassType Type { get; set; }
+        public ClassType ClassType { get; set; }
         public Year Year { get; set; }
         public Semester Semester { get; set; }
-        public Program? Program { get; set; }
+        public int SchoolProgramId { get; set; }
+        public SchoolProgram SchoolProgram { get; set; }
 
         public Prerequisite? Prerequisite { get; set; }
+
+    }
+
+    public class SubjectGrade
+    {
+        public int SubjectGradeId { get; set; }
+        [Range(1.0, 5.0)]
+        public decimal Grade { get; set; }
+        public int SubjectId { get; set; }
+        public Subject Subject { get; set; }
 
     }
 

@@ -9,21 +9,21 @@ namespace backend.Data {
         base(options) {
 
         }
-        public DbSet<StudentAccount>? StudentAccounts { get; set; }
+        public DbSet<StudentAccount>? Students { get; set; }
         public DbSet<Subject>? Subjects { get; set; }
-        public DbSet<Models.Program>? Programs { get; set; }
+        public DbSet<SchoolProgram>? Programs { get; set; }
         public DbSet<Prerequisite>? Prerequisites { get; set; }
+        public DbSet<ProgramHead>? ProgramHeads { get; set; }
+        public DbSet<Administrator>? Administrators { get; set; }
+        public DbSet<SubjectGrade>? SubjectGrades { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Models.Program>()
-                .HasIndex(p => p.ProgramName)
-                .IsUnique();
             
             modelBuilder.Entity<Prerequisite>()
                 .Property(p => p.Type)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Subject>()
-                .Property(s => s.Type)
+                .Property(s => s.ClassType)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Subject>()
