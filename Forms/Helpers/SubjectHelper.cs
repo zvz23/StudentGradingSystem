@@ -75,14 +75,14 @@ namespace backend.Forms.Helpers
                     }
                     foreach (var id in form.PrerequisiteSubjectIds)
                     {
-                        Subject preSub = await context.Subjects.FirstOrDefaultAsync(s => id == s.SubjectId);
+                        Subject preSub = await context.Subjects.FindAsync(id);
                         if (preSub == null)
                         {
                             throw new ArgumentException($"Subject with the {id} subject code number does not exists");
                         }
                         subject.Prerequisite.Subjects.Add(new PrerequisiteSubject()
                         {
-                            SubjectId = preSub.SubjectId,
+                            Subject = preSub
                         });
                     }
                     break;
