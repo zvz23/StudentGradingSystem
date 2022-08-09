@@ -27,6 +27,7 @@
                       <th class="px-4 py-3">Program Name</th>
                       <th class="px-4 py-3">Program Head</th>
                       <th class="px-4 py-3">Actions</th>
+                      @Html.AntiForgeryToken()
                     </tr>
                   </thead>
                   <tbody
@@ -220,28 +221,30 @@
 
           @section Scripts {
               <script>
-                      console.log("ready")
+                  console.log("ready")
 
                   let toDeleteProgramId = undefined;
-                  $(document).ready(function() {
+                  $(document).ready(() => {
                       $(".deleteBtn").click(function() {
-                          console.log("clicked");
-                          toDeleteProgramId = (this).data("id");
-
-                      });
+                        toDeleteProgramId = $(this).data("id");
+                      })
                   $("#deleteConfirmBtn").click(function() {
                       if (toDeleteProgramId == undefined) {
                           alert("Please select a program to delete");
                       }
                       else {
-                          console.log("fethching");
+                          const data = {
+                            programId: toDeleteProgramId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                          }
                           fetch("/Admin/Program?handler=Delete", {
                           method: "POST",
-                          body: JSON.stringify({"programId": $(this).data("id")})
+                          body: JSON.stringify(data)
                       })
-                      .then(res[pmse] => response.json())
-                      .then(data => {
-                          console.log(data);
+                      .then(response => console.log(response.))
+                      
+                      .then(error => {
+                        console.log(error)
                       })
                       }
                   })

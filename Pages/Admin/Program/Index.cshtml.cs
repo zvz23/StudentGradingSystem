@@ -27,8 +27,9 @@ namespace backend.Pages.Admin.Program
                 .Include(p => p.ProgramHead).ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostDelete(int? programId)
+        public async Task<IActionResult> OnPostDelete([FromForm] int? programId)
         {
+            _logger.LogInformation($"The program id is {programId}");
             if (programId == null)
             {
                 return BadRequest();
@@ -40,11 +41,14 @@ namespace backend.Pages.Admin.Program
             }
             _context.Programs.Remove(program);
             await _context.SaveChangesAsync();
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            result.Add("Status Code", "200");
-            result.Add("IsDeleted", "true");
-            return new JsonResult(result);
+            
+            return StatusCode(200);
 
+        }
+
+        public class DeleteResult {
+            public int StatusCode { get; set; }
+            public bool IsDeleted { get; set; }
         }
     }
 }
