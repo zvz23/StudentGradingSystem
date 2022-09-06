@@ -213,7 +213,7 @@
               id="deleteConfirmBtn"
             class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
           >
-            Accept
+            Delete anyway
           </button>
         </footer>
       </div>
@@ -221,14 +221,14 @@
 
           @section Scripts {
               <script>
-                  console.log("ready")
 
                   let toDeleteProgramId = undefined;
-                  $(document).ready(() => {
+                  $(document).ready(function() {
                       $(".deleteBtn").click(function() {
                         toDeleteProgramId = $(this).data("id");
                       })
                   $("#deleteConfirmBtn").click(function() {
+                      console.log("clicked")
                       if (toDeleteProgramId == undefined) {
                           alert("Please select a program to delete");
                       }
@@ -241,7 +241,12 @@
                           method: "POST",
                           body: JSON.stringify(data)
                       })
-                      .then(response => console.log(response.))
+                      .then(function(response) {
+                          return response.text();
+                      })
+                      .then(function(data) {
+                          console.log(data)
+                      })
                       
                       .then(error => {
                         console.log(error)
